@@ -23,3 +23,7 @@ utils
 postgresql
 odoo1/etc/sessions
 odoo1/etc/odoo-server.log
+odoo2/etc/odoo-server.log
+odoo2/etc/sessions
+odoo1/etc/filestore
+odoo2/etc/filestore
