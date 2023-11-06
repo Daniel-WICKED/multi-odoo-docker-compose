@@ -1,0 +1,59 @@
+version: '3'
+services:
+  db:
+    image: postgres:15
+    container_name: postgres
+    environment:
+    - POSTGRES_USER=odoo
+    - POSTGRES_PASSWORD=odoo16@2022
+    networks:
+    - odoo1-network
+    - odoo2-network
+    volumes:
+    - ./postgresql:/var/lib/postgresql/data
+    restart: on-failure:5
+  odoo1:
+    image: odoo:latest
+    container_name: odoo1
+    depends_on:
+    - db
+    ports:
+    - 8069:8069
+    tty: true
+    command: --dev=all
+    environment:
+    - HOST=db
+    - USER=odoo
+    - PASSWORD=odoo16@2022
+    volumes:
+    - ./odoo1/addons:/mnt/extra-addons
+    - ./odoo1/etc:/etc/odoo
+    networks:
+    - odoo1-network
+    restart: on-failure:5
+  odoo2:
+    image: odoo:latest
+    container_name: odoo2
+    depends_on:
+    - db
+    ports:
+    - 8070:8069
+    tty: true
+    command: --dev=all
+    environment:
+    - HOST=db
+    - USER=odoo
+    - PASSWORD=odoo16@2022
+    volumes:
+    - ./odoo2/addons:/mnt/extra-addons
+    - ./odoo2/etc:/etc/odoo
+    networks:
+    - odoo2-network
+    restart: on-failure:5
+networks:
+  odoo1-network:
+    driver: bridge
+    name: odoo1-network
+  odoo2-network:
+    name: odoo2-network
+    driver: bridge

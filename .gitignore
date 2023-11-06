@@ -1,0 +1,25 @@
+utils/e15.zip
+utils/enterprise-16.0.zip
+utils/l10n-spain-16.0.zip
+utils/odoo-15-docker-compose-master/.gitignore
+utils/odoo-15-docker-compose-master/docker-compose.yml
+utils/odoo-15-docker-compose-master/entrypoint.sh
+utils/odoo-15-docker-compose-master/README.md
+utils/odoo-15-docker-compose-master/run.sh
+utils/odoo-15-docker-compose-master/addons/readme.md
+utils/odoo-15-docker-compose-master/etc/odoo.conf
+utils/odoo-15-docker-compose-master/etc/requirements.txt
+utils/odoo-15-docker-compose-master/screenshots/odoo-15-apps-screenshot.png
+utils/odoo-15-docker-compose-master/screenshots/odoo-15-product-form.png
+utils/odoo-15-docker-compose-master/screenshots/odoo-15-sales-screen.png
+utils/odoo-15-docker-compose-master/screenshots/odoo-15-welcome-screenshot.png
+docker-compose_backup (copy).yml
+docker-compose_backup.yml
+multi-odoo docker-compose.code-workspace
+odoo_compose.yml
+init-scripts/01_create_users.sql
+init-scripts
+utils
+postgresql
+odoo1/etc/sessions
+odoo1/etc/odoo-server.log
