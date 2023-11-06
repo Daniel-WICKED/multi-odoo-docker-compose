@@ -8,6 +8,8 @@ import time
 def new_instance():
     try:
         os.system('clear')
+        
+        os.umask(0o000)
 
         # Get the latest instance number and port
         instance_dirs = [int(dir[4:]) for dir in os.listdir() if dir.startswith('odoo') and dir[4:].isdigit()]
@@ -63,6 +65,14 @@ def new_instance():
         with open(f'odoo{new_instance_number}.yml', 'w') as file:
             yaml.dump(data, file, default_flow_style=False, sort_keys=False)
 
+        # Set permissions for the new directories and files
+        os.chmod(new_etc_directory, 0o777)  # Setting 777 permission for the new directory
+        for root, dirs, files in os.walk(new_etc_directory):
+            for d in dirs:
+                os.chmod(os.path.join(root, d), 0o777)  # Setting 777 permission for subdirectories
+            for f in files:
+                os.chmod(os.path.join(root, f), 0o777)  # Setting 777 permission for files
+
         input(f"New instance {new_instance_name} created, press enter to continue.")
 
     except FileNotFoundError as e:
@@ -91,22 +101,24 @@ def run_instances():
             input("Error: The desired number of instances exceeds the existing ones. Press Enter to return to the main menu.")
             return
         else:
-            # Run the specified YAML file containing all instances' configurations
+            # Run the specified YAML file corresponding to the desired number of instances
             os.system('clear')
-            os.system(f"sudo docker-compose -f odoo{num_existing_instances}.yml up -d")
+            os.system(f"sudo docker-compose -f odoo{desired_instances}.yml up -d")
             time.sleep(2)
 
             # Show container status
             os.system('clear')
-            os.system(f"sudo docker-compose -f odoo{num_existing_instances}.yml ps -a")
+            os.system(f"sudo docker-compose -f odoo{desired_instances}.yml ps -a")
             print("")
             print("-------------------------------------------------------------------------------")
             input("Press Enter to stop and remove all containers.")
 
             # Stop and remove containers
             os.system('clear')
-            os.system(f"sudo docker-compose -f odoo{num_existing_instances}.yml down --remove-orphans")
+            print("Proceeding to stop and remove containers...")
+            os.system(f"sudo docker-compose -f odoo{desired_instances}.yml down --remove-orphans")
             print("Stopped and removed containers. Returning to the main menu...")
+            os.system('sudo chmod -R 777 .')  # Optional - to change permissions
             time.sleep(2)
 
     except ValueError:
